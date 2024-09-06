@@ -6,11 +6,8 @@ import com.quietcolossus.auth.domain.UserDataValidator
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
-val appModule = module {
-    single<PatternValidator> {
-        EmailPatternValidator
-    }
-    singleOf(::UserDataValidator)
+//Define dependencies needed application-wide
 
-    
+val appModule = module {
+
 }
