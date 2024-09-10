@@ -96,10 +96,10 @@ private fun LoginScreen(
     GradientBackground {
         Column(
             modifier = Modifier
-                .verticalScroll(rememberScrollState())
                 .fillMaxSize()
+                .verticalScroll(rememberScrollState())
                 .padding(horizontal = 16.dp)
-                .padding(vertical = 64.dp)
+                .padding(vertical = 32.dp)
                 .padding(top = 16.dp)
         ) {
             Text(

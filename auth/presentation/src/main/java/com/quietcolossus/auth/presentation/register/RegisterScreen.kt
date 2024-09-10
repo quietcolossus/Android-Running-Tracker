@@ -21,7 +21,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.pointer.PointerIcon.Companion.Text
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
@@ -40,7 +39,6 @@ import com.quietcolossus.core.presentation.designsystem.CrossIcon
 import com.quietcolossus.core.presentation.designsystem.EmailIcon
 import com.quietcolossus.core.presentation.designsystem.Poppins
 import com.quietcolossus.core.presentation.designsystem.RuniqueDarkRed
-import com.quietcolossus.core.presentation.designsystem.RuniqueGray
 import com.quietcolossus.core.presentation.designsystem.RuniqueGreen
 import com.quietcolossus.core.presentation.designsystem.RuniqueTheme
 import com.quietcolossus.core.presentation.designsystem.components.GradientBackground
@@ -78,11 +76,16 @@ fun RegisterScreenRoot(
                 onSuccessfulRegistration()
             }
         }
-
     }
     RegisterScreen(
         state = viewModel.state,
-        onAction = viewModel::onAction
+        onAction = { action ->
+            when(action) {
+                is RegisterAction.OnLoginClick -> onSignInClick()
+                else -> Unit
+            }
+            viewModel.onAction(action)
+        }
     )
 }
 
