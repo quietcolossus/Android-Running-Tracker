@@ -1,9 +1,6 @@
 package com.quietcolossus.runique
 
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavController
-import androidx.navigation.NavGraph
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -12,6 +9,8 @@ import androidx.navigation.compose.navigation
 import com.quietcolossus.auth.presentation.intro.IntroScreenRoot
 import com.quietcolossus.auth.presentation.login.LoginScreenRoot
 import com.quietcolossus.auth.presentation.register.RegisterScreenRoot
+import com.quietcolossus.run.presentation.active_run.ActiveRunScreenRoot
+import com.quietcolossus.run.presentation.run_overview.RunOverviewScreenRoot
 
 @Composable
 fun NavigationRoot(
@@ -87,7 +86,14 @@ private fun NavGraphBuilder.runGraph(navController: NavHostController) {
         route = "run"
     ) {
         composable(route = "run_overview") {
-            Text(text = "Run overview!")
+            RunOverviewScreenRoot(
+                onStartRunClick = {
+                    navController.navigate("active_run")
+                }
+            )
+        }
+        composable(route = "active_run") {
+            ActiveRunScreenRoot()
         }
     }
 }
