@@ -5,6 +5,7 @@ import com.quietcolossus.core.domain.AuthInfo
 import com.quietcolossus.core.domain.SessionStorage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
 class EncryptedSessionStorage(
@@ -12,7 +13,12 @@ class EncryptedSessionStorage(
 ): SessionStorage {
 
     override suspend fun get(): AuthInfo? {
-        TODO("Not yet implemented")
+        return withContext(Dispatchers.IO) {
+            val json = sharedPreferences.getString(KEY_AUTH_INFO, null)
+            json?.let {
+                Json.decodeFromString<AuthInfoSerializable>(it).toAuthInfo()
+            }
+        }
     }
 
     override suspend fun set(info: AuthInfo?) {
@@ -22,10 +28,11 @@ class EncryptedSessionStorage(
                 return@withContext
             }
 
-            val json = Json.encodeToString(info)
+            val json = Json.encodeToString(info.toAuthInfoSerializable())
             sharedPreferences
                 .edit()
-                .putString()
+                .putString(KEY_AUTH_INFO, json)
+                .commit()
         }
     }
 

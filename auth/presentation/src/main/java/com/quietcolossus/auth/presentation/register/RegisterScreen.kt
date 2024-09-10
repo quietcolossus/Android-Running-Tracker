@@ -7,6 +7,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -50,7 +51,6 @@ import com.quietcolossus.core.presentation.ui.ObserveAsEvents
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-
 fun RegisterScreenRoot(
     onSignInClick: () -> Unit,
     onSuccessfulRegistration: () -> Unit,
@@ -96,8 +96,7 @@ private fun RegisterScreen(
         Column(
             modifier = Modifier
                 .verticalScroll(rememberScrollState())
-                .fillMaxWidth()
-                .weight(1f)
+                .fillMaxSize()
                 .padding(horizontal = 16.dp)
                 .padding(vertical = 32.dp)
                 .padding(top = 32.dp)
@@ -110,7 +109,7 @@ private fun RegisterScreen(
                 withStyle(
                     style = SpanStyle(
                         fontFamily = Poppins,
-                        color = RuniqueGray
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 ) {
                     append(stringResource(id = R.string.already_have_an_account) + " ")
