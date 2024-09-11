@@ -3,13 +3,11 @@ package com.quietcolossus.runique.di
 import android.content.SharedPreferences
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
-import com.quietcolossus.auth.data.EmailPatternValidator
-import com.quietcolossus.auth.domain.PatternValidator
-import com.quietcolossus.auth.domain.UserDataValidator
 import com.quietcolossus.runique.MainViewModel
+import com.quietcolossus.runique.RuniqueApp
+import kotlinx.coroutines.CoroutineScope
 import org.koin.android.ext.koin.androidApplication
 import org.koin.androidx.viewmodel.dsl.viewModelOf
-import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
 //Define dependencies needed application-wide
@@ -23,7 +21,10 @@ val appModule = module {
             EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
             EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
         )
+    }
 
+    single<CoroutineScope> {
+        (androidApplication() as RuniqueApp).applicationScope
     }
 
     viewModelOf(::MainViewModel)
