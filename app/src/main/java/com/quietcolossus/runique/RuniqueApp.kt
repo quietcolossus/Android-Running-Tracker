@@ -4,6 +4,7 @@ import android.app.Application
 import com.quietcolossus.auth.data.di.authDataModule
 import com.quietcolossus.auth.presentation.di.authViewModelModule
 import com.quietcolossus.core.data.di.coreDataModule
+import com.quietcolossus.core.database.di.databaseModule
 import com.quietcolossus.run.location.di.locationModule
 import com.quietcolossus.run.presentation.di.runPresentationModule
 import com.quietcolossus.runique.di.appModule
@@ -32,7 +33,8 @@ class RuniqueApp: Application() {
                 appModule,
                 coreDataModule,
                 runPresentationModule,
-                locationModule
+                locationModule,
+                databaseModule
             )
         }
     }

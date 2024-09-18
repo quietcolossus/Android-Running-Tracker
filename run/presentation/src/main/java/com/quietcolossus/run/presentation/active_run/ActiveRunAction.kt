@@ -1,5 +1,7 @@
 package com.quietcolossus.run.presentation.active_run
 
+import kotlinx.coroutines.channels.ActorScope
+
 sealed interface ActiveRunAction {
     data object OnToggleRunClick: ActiveRunAction
     data object OnFinishRunClick: ActiveRunAction
@@ -14,4 +16,5 @@ sealed interface ActiveRunAction {
         val showNotificationRationale: Boolean
     ): ActiveRunAction
     data object DismissRationaleDialog: ActiveRunAction
+    class OnRunProcessed(val mapPictureBytes: ByteArray): ActiveRunAction
 }
