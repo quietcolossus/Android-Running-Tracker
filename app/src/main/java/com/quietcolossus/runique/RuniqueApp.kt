@@ -6,6 +6,7 @@ import com.quietcolossus.auth.presentation.di.authViewModelModule
 import com.quietcolossus.core.data.di.coreDataModule
 import com.quietcolossus.core.database.di.databaseModule
 import com.quietcolossus.run.location.di.locationModule
+import com.quietcolossus.run.network.di.networkModule
 import com.quietcolossus.run.presentation.di.runPresentationModule
 import com.quietcolossus.runique.di.appModule
 import kotlinx.coroutines.CoroutineScope
@@ -34,7 +35,8 @@ class RuniqueApp: Application() {
                 coreDataModule,
                 runPresentationModule,
                 locationModule,
-                databaseModule
+                databaseModule,
+                networkModule
             )
         }
     }

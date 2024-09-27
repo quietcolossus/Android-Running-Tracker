@@ -9,6 +9,9 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.quietcolossus.core.domain.location.Location
 import com.quietcolossus.core.domain.run.Run
+import com.quietcolossus.core.domain.run.RunRepository
+import com.quietcolossus.core.domain.util.Result
+import com.quietcolossus.core.presentation.ui.asUiText
 import com.quietcolossus.run.domain.LocationDataCalculator
 import com.quietcolossus.run.domain.RunningTracker
 import com.quietcolossus.run.presentation.active_run.service.ActiveRunService
@@ -26,7 +29,8 @@ import java.time.ZoneId
 import java.time.ZonedDateTime
 
 class ActiveRunViewModel(
-    private val runningTracker: RunningTracker
+    private val runningTracker: RunningTracker,
+    private val runRepository: RunRepository
 ): ViewModel() {
 
     var state by mutableStateOf(ActiveRunState(
@@ -137,9 +141,17 @@ class ActiveRunViewModel(
                 mapPictureUrl = null
             )
 
-            // Save run in repository
-
             runningTracker.finishRun()
+
+            when(val result = runRepository.upsertRun(run, mapPictureBytes)) {
+                is Result.Error -> {
+                    eventChannel.send(ActiveRunEvent.Error(result.error.asUiText()))
+                }
+                is Result.Success -> {
+                    eventChannel.send(ActiveRunEvent.RunSaved)
+                }
+            }
+
             state = state.copy(isSavingRun = false)
         }
 
