@@ -1,5 +1,6 @@
 package com.quietcolossus.core.data.run
 
+import com.quietcolossus.core.data.networking.get
 import com.quietcolossus.core.database.dao.RunPendingSyncDao
 import com.quietcolossus.core.database.mappers.toRun
 import com.quietcolossus.core.domain.SessionStorage
@@ -13,6 +14,10 @@ import com.quietcolossus.core.domain.util.DataError
 import com.quietcolossus.core.domain.util.Result
 import com.quietcolossus.core.domain.util.EmptyResult
 import com.quietcolossus.core.domain.util.asEmptyDataResult
+import io.ktor.client.HttpClient
+import io.ktor.client.plugins.auth.Auth
+import io.ktor.client.plugins.auth.providers.BearerAuthProvider
+import io.ktor.client.plugins.plugin
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.NonCancellable
@@ -27,7 +32,8 @@ class OfflineFirstRunRepository(
     private val applicationScope: CoroutineScope,
     private val runPendingSyncDao: RunPendingSyncDao,
     private val sessionStorage: SessionStorage,
-    private val syncRunScheduler: SyncRunScheduler
+    private val syncRunScheduler: SyncRunScheduler,
+    private val client: HttpClient
 ): RunRepository {
     override fun getRuns(): Flow<List<Run>> {
         TODO("Not yet implemented")
@@ -147,5 +153,21 @@ class OfflineFirstRunRepository(
             createJobs.forEach { it.join() }
             deleteJobs.forEach { it.join() }
         }
+    }
+
+    override suspend fun deleteAllRuns() {
+        localRunDataSource.deleteAllRuns()
+    }
+
+    override suspend fun logout(): EmptyResult<DataError.Network> {
+        val result = client.get<Unit>(
+            route = "/logout"
+        ).asEmptyDataResult()
+
+        client.plugin(Auth).providers.filterIsInstance<BearerAuthProvider>()
+            .firstOrNull()
+            ?.clearToken()
+
+        return result
     }
 }
