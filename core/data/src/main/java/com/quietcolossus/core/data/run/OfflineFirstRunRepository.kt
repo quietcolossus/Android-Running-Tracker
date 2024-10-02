@@ -36,7 +36,7 @@ class OfflineFirstRunRepository(
     private val client: HttpClient
 ): RunRepository {
     override fun getRuns(): Flow<List<Run>> {
-        TODO("Not yet implemented")
+        return localRunDataSource.getRuns()
     }
 
     override suspend fun fetchRuns(): EmptyResult<DataError> {
