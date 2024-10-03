@@ -2,6 +2,7 @@ package com.quietcolossus.core.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import com.quietcolossus.core.database.dao.AnalyticsDao
 import com.quietcolossus.core.database.dao.RunDao
 import com.quietcolossus.core.database.dao.RunPendingSyncDao
 import com.quietcolossus.core.database.entity.DeletedRunSyncEntity
@@ -19,4 +20,5 @@ import com.quietcolossus.core.database.entity.RunPendingSyncEntity
 abstract class RunDatabase: RoomDatabase() {
     abstract val runDao: RunDao
     abstract val runPendingSyncDao: RunPendingSyncDao
+    abstract val analyticsDao: AnalyticsDao
 }

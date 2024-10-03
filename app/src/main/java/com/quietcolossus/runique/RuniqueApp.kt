@@ -1,6 +1,8 @@
 package com.quietcolossus.runique
 
 import android.app.Application
+import android.content.Context
+import com.google.android.play.core.splitcompat.SplitCompat
 import com.quietcolossus.auth.data.di.authDataModule
 import com.quietcolossus.auth.presentation.di.authViewModelModule
 import com.quietcolossus.core.data.di.coreDataModule
@@ -43,5 +45,10 @@ class RuniqueApp: Application() {
                 runDataModule
             )
         }
+    }
+
+    override fun attachBaseContext(base: Context?) {
+        super.attachBaseContext(base)
+        SplitCompat.install(this)
     }
 }
