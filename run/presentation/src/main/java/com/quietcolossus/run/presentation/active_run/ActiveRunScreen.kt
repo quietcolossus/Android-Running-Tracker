@@ -62,7 +62,7 @@ fun ActiveRunScreenRoot(
                     Toast.LENGTH_LONG
                 ).show()
             }
-            ActiveRunEvent.RunSaved -> TODO()
+            ActiveRunEvent.RunSaved -> onFinish()
         }
 
     }
@@ -148,7 +148,7 @@ private fun ActiveRunScreen(
 
     }
 
-    LaunchedEffect(key1 = state.shouldTrack) {
+    LaunchedEffect(key1 = state.shouldTrack  && !ActiveRunService.isServiceActive) {
         if(context.hasLocationPermission() && state.shouldTrack) {
             onServiceToggle(true)
         }

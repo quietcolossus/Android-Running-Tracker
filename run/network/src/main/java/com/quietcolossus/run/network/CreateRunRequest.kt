@@ -1,5 +1,7 @@
 package com.quietcolossus.run.network
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class CreateRunRequest(
     val durationMillis: Long,
     val distanceMeters: Int,
