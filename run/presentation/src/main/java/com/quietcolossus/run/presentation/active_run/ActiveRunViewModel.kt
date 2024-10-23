@@ -76,6 +76,13 @@ class ActiveRunViewModel(
             }
             .launchIn(viewModelScope)
 
+        runningTracker
+            .runData
+            .onEach {
+                state = state.copy(runData = it)
+            }
+            .launchIn(viewModelScope)
+
         runningTracker.elapsedTime
             .onEach {
                 state = state.copy(elapsedTime = it)
@@ -112,6 +119,12 @@ class ActiveRunViewModel(
             is ActiveRunAction.SubmitNotificationPermissionInfo -> {
                 state = state.copy(
                     showNotifcationRationale = action.showNotificationRationale
+                )
+            }
+            is ActiveRunAction.DismissRationaleDialog -> {
+                state = state.copy(
+                    showNotifcationRationale = false,
+                    showLocationRationale = false
                 )
             }
             is ActiveRunAction.OnRunProcessed -> {
